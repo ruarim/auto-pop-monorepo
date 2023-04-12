@@ -1,0 +1,37 @@
+{
+  "name": "auto-hustler-v2",
+  "displayName": "Auto Hustler 2",
+  "version": "0.0.0",
+  "description": "A depop automation bot.",
+  "author": "ruari",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "4.12.0",
+    "dayjs": "^1.11.5",
+    "plasmo": "0.57.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-query": "^3.39.3",
+    "tailwindcss": "^3.1.8"
+  },
+  "devDependencies": {
+    "@plasmohq/prettier-plugin-sort-imports": "workspace:*",
+    "@types/chrome": "0.0.198",
+    "@types/node": "18.11.0",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "prettier": "2.7.1",
+    "typescript": "4.8.4"
+  },
+  "manifest": {
+    "host_permissions": [
+      "https://*/*"
+    ],
+    "permissions": [
+      "cookies"
+    ]
+  }
+}

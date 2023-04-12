@@ -1,0 +1,18 @@
+{
+  "name": "auto-hustler-monorepo",
+  "version": "1.0.0",
+  "description": "auto-hustler monorepo",
+  "author": "RuariM",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "^1.9.0"
+  }
+}

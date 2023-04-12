@@ -1,0 +1,11 @@
+{
+  "extends": "plasmo/templates/tsconfig.base",
+  "exclude": ["node_modules"],
+  "include": [".plasmo/**/*", "**/*.ts", "**/*.tsx", "src/hooks/useRefreshts"],
+  "compilerOptions": {
+    "paths": {
+      "~*": ["*"]
+    },
+    "baseUrl": ""
+  }
+}
