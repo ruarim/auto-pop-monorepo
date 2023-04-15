@@ -7,7 +7,8 @@ import useGetShopProducts from "~src/hooks/queries/useGetShopProducts"
 import { getCookie } from "~src/utils/getCookie"
 
 import Button from "./button"
-import { Progress } from "./progress"
+import Progress from "./progress"
+
 
 const App = () => {
   const [isRefreshing, setRefreshing] = useState(false)
@@ -15,7 +16,6 @@ const App = () => {
   const [selected, setSelected] = useState<number>()
   const [refreshProgress, setRefreshProgress] = useState(0)
   const [numProducts, setNumProducts] = useState(0)
-
   const user_id = getCookie(USER_COOKIE_NAME)
   const { mutateAsync: refresh } = useRefresh()
 
@@ -29,6 +29,8 @@ const App = () => {
   }
 
   const handleRefresh = async () => {
+    if (!user_id) return alert("Login to use Auto-Hustler") //use custom modal
+
     const delay = (ms) => new Promise((res) => setTimeout(res, ms))
 
     setRefreshing(true)
@@ -51,6 +53,7 @@ const App = () => {
     setRefreshing(false)
     setRefreshProgress(0)
   }
+
   const handleSchedule = (schedule: number) => {
     //this should post to schedule endpoint for current user_id
     //replace setSeleced with mutateSchedule calling api
