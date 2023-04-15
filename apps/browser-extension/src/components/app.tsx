@@ -4,11 +4,11 @@ import { USER_COOKIE_NAME } from "~globals"
 import useRefresh from "~src/hooks/mutations/useRefresh"
 import useGetProduct from "~src/hooks/queries/useGetProduct"
 import useGetShopProducts from "~src/hooks/queries/useGetShopProducts"
+import delay from "~src/utils/delay"
 import { getCookie } from "~src/utils/getCookie"
 
 import Button from "./button"
 import Progress from "./progress"
-
 
 const App = () => {
   const [isRefreshing, setRefreshing] = useState(false)
@@ -30,8 +30,6 @@ const App = () => {
 
   const handleRefresh = async () => {
     if (!user_id) return alert("Login to use Auto-Hustler") //use custom modal
-
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms))
 
     setRefreshing(true)
     try {
