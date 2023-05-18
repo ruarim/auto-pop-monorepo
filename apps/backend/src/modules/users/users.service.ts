@@ -35,7 +35,7 @@ export class UsersService {
     return this.buildReturnObject(newUser);
   }
 
-  async findOne(userDto: LoginUserDto) {
+  async findUser(userDto: LoginUserDto) {
     const { email, password } = userDto;
 
     const user = await this.findByEmail(email);

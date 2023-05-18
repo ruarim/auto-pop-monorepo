@@ -15,7 +15,7 @@ export class UsersController {
 
   @Get('login')
   async signIn(@Body() loginUserDto: LoginUserDto) {
-    return this.usersService.findOne(loginUserDto);
+    return this.usersService.findUser(loginUserDto);
   }
 
   // @Post('depoptoken')
@@ -23,16 +23,11 @@ export class UsersController {
   //   return this.usersService.setDepopToken(updateUserDto);
   // }
 
-  // @Get()
-  // findAll() {
-  //   return this.usersService.findAll();
-  // }
-
   //create refresh schedule
 
   //call schedule service here
   //@Get()
   //getRefreshSchedule(id: number){
-  //return this.jobsService.findScheduleById({where: {id}})
+  //return this.jobsService.findUserScheduleById({where: {id}})
   //}
 }
