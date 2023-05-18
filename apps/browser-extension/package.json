@@ -1,7 +1,7 @@
 {
-  "name": "auto-hustler-v2",
-  "displayName": "Auto Hustler 2",
-  "version": "0.0.0",
+  "name": "auto-hustler",
+  "displayName": "Auto Hustler",
+  "version": "0.0.1",
   "description": "A depop automation bot.",
   "author": "ruari",
   "scripts": {
@@ -32,11 +32,8 @@
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "https://www.depop.com/*"
     ],
-    "permissions": [
-      "cookies",
-      "scripting"
-    ]
+    "permissions": []
   }
 }

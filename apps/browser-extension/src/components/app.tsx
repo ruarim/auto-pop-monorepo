@@ -19,6 +19,12 @@ const App = () => {
   const user_id = getCookie(USER_COOKIE_NAME)
   const { mutateAsync: refresh } = useRefresh()
 
+  const scheduleOptions = [
+    { content: "6hrs", interval: 6 },
+    { content: "12hrs", interval: 12 },
+    { content: "24hrs", interval: 24 },
+  ]
+
   //get current Schedule
   //will come from api
   //getUser()
@@ -29,6 +35,7 @@ const App = () => {
   }
 
   const handleRefresh = async () => {
+    //doesnt work
     if (!user_id) return alert("Login to use Auto-Hustler") //use custom modal
 
     setRefreshing(true)
@@ -61,25 +68,20 @@ const App = () => {
 
   if (!isOpen)
     return (
-      <button className="fixed bottom-0 right-0 z-50 p-6 font-sans">
+      <button className="fixed bottom-7 right-0 z-50 p-6 font-sans">
         <div
-          className="w-38 h-38 rounded-md p-5 text-white bg-black"
+          className="w-36 rounded-md p-5 text-white bg-black"
           onClick={() => setOpen(true)}>
           <h1 className="font-bold text-2xl">[A-H]</h1>
         </div>
       </button>
     )
-  const scheduleOptions = [
-    { content: "6hrs", interval: 6 },
-    { content: "12hrs", interval: 12 },
-    { content: "24hrs", interval: 24 },
-  ]
 
   //animate transition on open with headless or radix
   if (isOpen)
     return (
       <div style={{ all: "initial" }}>
-        <div className="fixed bottom-0 right-0 z-50 p-6 font-sans">
+        <div className="fixed bottom-7 right-0 z-50 p-6 font-sans">
           <div className="shadow-lg rounded-md p-5 space-y-2 bg-black text-white">
             {isRefreshing && (
               <ProgressBar
@@ -87,7 +89,6 @@ const App = () => {
                 max={numProducts}
               />
             )}
-            {/* use map and array */}
             <Button onClick={handleRefresh} content="Refresh All" />
             <div className="space-y-2">
               <h2 className="text-center w-full ">Schedule</h2>
