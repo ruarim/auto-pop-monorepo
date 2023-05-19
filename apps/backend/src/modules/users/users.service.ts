@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { LoginUserDto } from './dto/login-user-dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
 
@@ -32,26 +31,39 @@ export class UsersService {
     const newUser = this.userRepository.create({ email, password });
     await this.userRepository.save(newUser);
 
-    return this.buildReturnObject(newUser);
+    return this.buildUserReturnObject(newUser);
   }
 
   async findUser(userDto: LoginUserDto) {
     const { email, password } = userDto;
 
     const user = await this.findByEmail(email);
-
     if (!user) throw new NotFoundException('User does not exists');
 
     if (await argon2.verify(user.password, password))
-      return this.buildReturnObject(user);
+      return this.buildUserReturnObject(user);
     else throw new UnauthorizedException('incorrect password');
+  }
+
+  async setDepopToken(id: number, token: string) {
+    const user = await this.findById(id);
+    if (!user) throw new NotFoundException('User does not exists');
+
+    user.depopToken = token;
+    const updatedUser = await this.userRepository.save(user);
+
+    return this.buildUserReturnObject(updatedUser);
   }
 
   async findByEmail(email: string): Promise<User> {
     return await this.userRepository.findOne({ where: { email } });
   }
 
-  private buildReturnObject(user: User) {
+  async findById(id: number): Promise<User> {
+    return await this.userRepository.findOne({ where: { id } });
+  }
+
+  private buildUserReturnObject(user: User) {
     const returnUser = {
       id: user.id,
       email: user.email,
