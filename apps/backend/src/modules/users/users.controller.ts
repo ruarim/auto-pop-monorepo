@@ -22,7 +22,7 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get('login')
+  @Post('login')
   async signIn(@Body() loginUserDto: LoginUserDto) {
     return this.usersService.login(loginUserDto);
   }
