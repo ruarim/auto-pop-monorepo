@@ -34,7 +34,7 @@ export class UsersService {
     return this.buildUserReturnObject(newUser);
   }
 
-  async findUser(userDto: LoginUserDto) {
+  async login(userDto: LoginUserDto) {
     const { email, password } = userDto;
 
     const user = await this.findByEmail(email);
@@ -53,6 +53,10 @@ export class UsersService {
     const updatedUser = await this.userRepository.save(user);
 
     return this.buildUserReturnObject(updatedUser);
+  }
+
+  async getUser(user: User) {
+    return this.buildUserReturnObject(user);
   }
 
   async findByEmail(email: string): Promise<User> {
