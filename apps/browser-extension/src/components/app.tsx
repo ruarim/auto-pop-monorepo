@@ -1,14 +1,18 @@
 import { useState } from "react"
 
 import { USER_COOKIE_NAME } from "~globals"
+import { useAuthContext } from "~src/hooks/context/useAuthContext"
 import useRefresh from "~src/hooks/mutations/useRefresh"
 import useGetProduct from "~src/hooks/queries/useGetProduct"
 import useGetShopProducts from "~src/hooks/queries/useGetShopProducts"
+import useUser from "~src/hooks/queries/useUser"
 import delay from "~src/utils/delay"
 import { getCookie } from "~src/utils/getCookie"
 
 import Button from "./button"
+import Layout from "./layout"
 import Progress from "./progress"
+import RegisterLogin from "./registerLogin"
 
 const App = () => {
   const [isRefreshing, setRefreshing] = useState(false)
@@ -18,7 +22,10 @@ const App = () => {
   const [numProducts, setNumProducts] = useState(0)
   const user_id = getCookie(USER_COOKIE_NAME)
   const { mutateAsync: refresh } = useRefresh()
+  const { isLoggedIn } = useAuthContext()
+  const { data: user } = useUser()
 
+  //from backend?
   const scheduleOptions = [
     { content: "6hrs", interval: 6 },
     { content: "12hrs", interval: 12 },
@@ -66,47 +73,52 @@ const App = () => {
     else setSelected(schedule)
   }
 
+  const defaultWidth = "w-[120px]"
+  const loginWidth = "w-[400px]"
+
+  if (!isLoggedIn)
+    return (
+      <div className={loginWidth}>
+        <RegisterLogin />
+      </div>
+    )
+
   if (!isOpen)
     return (
-      <button className="fixed bottom-7 right-0 z-50 p-6 font-sans">
-        <div
-          className="w-36 rounded-md p-5 text-white bg-black"
-          onClick={() => setOpen(true)}>
-          <h1 className="font-bold text-2xl">[A-H]</h1>
+      <button className={defaultWidth} onClick={() => setOpen(true)}>
+        <div className="flex justify-center w-full">
+          <div className="rounded-md text-white bg-black">
+            <h1 className="font-bold text-2xl">[A-H]</h1>
+          </div>
         </div>
       </button>
     )
 
-  //animate transition on open with headless or radix
   if (isOpen)
+    //animate transition on open with headless or radix
     return (
-      <div style={{ all: "initial" }}>
-        <div className="fixed bottom-7 right-0 z-50 p-6 font-sans">
-          <div className="shadow-lg rounded-md p-5 space-y-2 bg-black text-white">
-            {isRefreshing && (
-              <ProgressBar
-                currentProgress={refreshProgress}
-                max={numProducts}
+      <div className={defaultWidth}>
+        <div className="space-y-2">
+          {isRefreshing && (
+            <ProgressBar currentProgress={refreshProgress} max={numProducts} />
+          )}
+          <Button onClick={handleRefresh} content="Refresh All" />
+          <div className="space-y-2">
+            <h2 className="text-center w-full ">Schedule</h2>
+            {scheduleOptions.map((option, i) => (
+              <Button
+                key={i}
+                isSelected={isSelected(selected, option.interval)}
+                onClick={() => handleSchedule(option.interval)}
+                content={option.content}
               />
-            )}
-            <Button onClick={handleRefresh} content="Refresh All" />
-            <div className="space-y-2">
-              <h2 className="text-center w-full ">Schedule</h2>
-              {scheduleOptions.map((option, i) => (
-                <Button
-                  key={i}
-                  isSelected={isSelected(selected, option.interval)}
-                  onClick={() => handleSchedule(option.interval)}
-                  content={option.content}
-                />
-              ))}
-            </div>
-            <button
-              className="hover:underline w-full text-center"
-              onClick={() => setOpen(false)}>
-              Close
-            </button>
+            ))}
           </div>
+          <button
+            className="hover:underline w-full text-center pt-2"
+            onClick={() => setOpen(false)}>
+            Close
+          </button>
         </div>
       </div>
     )

@@ -1,5 +1,14 @@
+import { useQuery } from "@tanstack/react-query"
+
+import client from "~src/axios/backendClient"
+
 const useUser = () => {
-    //get user from backend
+  return useQuery({
+    queryKey: ["user"],
+    queryFn: () => {
+      return client.get("/users")
+    },
+  })
 }
 
-export default useUser;
+export default useUser

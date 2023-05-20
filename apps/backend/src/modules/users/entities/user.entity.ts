@@ -21,4 +21,6 @@ export class User {
   async hashPassword() {
     this.password = await argon2.hash(this.password);
   }
+
+  //number of requests? 
 }

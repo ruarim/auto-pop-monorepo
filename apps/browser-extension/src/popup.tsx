@@ -5,7 +5,7 @@ function IndexPopup() {
   }
 
   return (
-    <div>
+    <div style={{ all: "initial" }}>
       AUTO HUSTLER <div className="text-red-400">On / Off</div>
     </div>
   )
