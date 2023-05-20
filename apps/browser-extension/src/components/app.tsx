@@ -23,7 +23,7 @@ const App = () => {
   const user_id = getCookie(USER_COOKIE_NAME)
   const { mutateAsync: refresh } = useRefresh()
   const { isLoggedIn } = useAuthContext()
-  const { data: user } = useUser()
+  const { data: user, isLoading: userLoading } = useUser()
 
   //from backend?
   const scheduleOptions = [
@@ -76,14 +76,14 @@ const App = () => {
   const defaultWidth = "w-[120px]"
   const loginWidth = "w-[400px]"
 
-  if (!isLoggedIn)
+  if (!user && !userLoading)
     return (
       <div className={loginWidth}>
         <RegisterLogin />
       </div>
     )
 
-  if (!isOpen)
+  if (!isOpen && !userLoading)
     return (
       <button className={defaultWidth} onClick={() => setOpen(true)}>
         <div className="flex justify-center w-full">
@@ -94,7 +94,7 @@ const App = () => {
       </button>
     )
 
-  if (isOpen)
+  if (isOpen && !userLoading)
     //animate transition on open with headless or radix
     return (
       <div className={defaultWidth}>
