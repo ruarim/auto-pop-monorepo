@@ -7,8 +7,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { LoginUserDto } from './dto/login-user-dto';
+import { UserDto } from './dto/user.dto';
 import { SetDepopTokenDto } from './dto/set-depop-token-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { User } from './entities/user.entity';
@@ -18,12 +17,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto) {
+  async register(@Body() createUserDto: UserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Post('login')
-  async signIn(@Body() loginUserDto: LoginUserDto) {
+  async signIn(@Body() loginUserDto: UserDto) {
     return this.usersService.login(loginUserDto);
   }
 

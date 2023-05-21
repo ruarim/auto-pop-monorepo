@@ -7,8 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LoginUserDto } from './dto/login-user-dto';
-import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
 
@@ -20,7 +19,7 @@ export class UsersService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async create(userDto: CreateUserDto) {
+  async create(userDto: UserDto) {
     const { email, password } = userDto;
 
     const existingUser = await this.findByEmail(email);
@@ -34,7 +33,7 @@ export class UsersService {
     return this.buildUserReturnObject(newUser);
   }
 
-  async login(userDto: LoginUserDto) {
+  async login(userDto: UserDto) {
     const { email, password } = userDto;
 
     const user = await this.findByEmail(email);
