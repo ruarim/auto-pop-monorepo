@@ -1,11 +1,12 @@
 import clsx from "clsx"
+import type { ReactNode } from "react"
 
 interface ButtonProps {
   onClick?: () => void
-  content?: string
+  children?: ReactNode
   isSelected?: boolean
 }
-const Button = ({ onClick, content, isSelected }: ButtonProps) => {
+const Button = ({ onClick, children, isSelected }: ButtonProps) => {
   return (
     <CornerBorder>
       <button
@@ -14,7 +15,7 @@ const Button = ({ onClick, content, isSelected }: ButtonProps) => {
           isSelected && "bg-gray-700",
         )}
         onClick={onClick}>
-        <p>{content}</p>
+        <p>{children}</p>
       </button>
     </CornerBorder>
   )

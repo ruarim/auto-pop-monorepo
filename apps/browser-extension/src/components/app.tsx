@@ -1,6 +1,8 @@
+import { XMarkIcon } from "@heroicons/react/20/solid"
 import { useEffect, useState } from "react"
 
 import { ACCESS_COOKIE_NAME, USER_COOKIE_NAME } from "~globals"
+import { useAuthContext } from "~src/hooks/context/useAuthContext"
 import useRefresh from "~src/hooks/mutations/useRefresh"
 import useSetDepopToken from "~src/hooks/mutations/useSetDepopToken"
 import useGetProduct from "~src/hooks/queries/useGetProduct"
@@ -12,7 +14,6 @@ import { getCookie } from "~src/utils/getCookie"
 import Button from "./button"
 import Progress from "./progress"
 import RegisterLogin from "./registerLogin"
-import Spinner from "./spinner"
 
 const App = () => {
   const [isRefreshing, setRefreshing] = useState(false)
@@ -25,6 +26,7 @@ const App = () => {
   const { mutateAsync: refresh } = useRefresh()
   const { data: user, isLoading: userLoading } = useUser()
   const { mutateAsync: setDepopToken } = useSetDepopToken()
+  const { logout, isLoggedIn } = useAuthContext()
 
   //from backend?
   const scheduleOptions = [
@@ -75,14 +77,14 @@ const App = () => {
   const defaultWidth = "w-[120px]"
   const loginWidth = "w-[400px]"
 
-  if (userLoading)
-    return (
-      <div className={`${defaultWidth} flex justify-center`}>
-        <Spinner />
-      </div>
-    )
+  // if (userLoading && isLoggedIn)
+  //   return (
+  //     <div className={`${defaultWidth} flex justify-center`}>
+  //       <Spinner />
+  //     </div>
+  //   )
 
-  if (!user)
+  if (!isLoggedIn)
     return (
       <div className={loginWidth}>
         <RegisterLogin />
@@ -100,30 +102,39 @@ const App = () => {
       </button>
     )
 
-  if (isOpen)
+  if (isOpen && isLoggedIn)
     //animate transition on open with headless or radix
     return (
       <div className={defaultWidth}>
         <div className="space-y-2">
+          <div className="flex justify-between h-full">
+            <h1 className="font-bold text-xl">[A-H]</h1>
+            <button
+              className="hover:underline text-center w-7"
+              onClick={() => setOpen(false)}>
+              <XMarkIcon />
+            </button>
+          </div>
+
           {isRefreshing && (
             <ProgressBar currentProgress={refreshProgress} max={numProducts} />
           )}
-          <Button onClick={handleRefresh} content="Refresh All" />
+          <Button onClick={handleRefresh}>Refresh All</Button>
           <div className="space-y-2">
             <h2 className="text-center w-full ">Schedule</h2>
             {scheduleOptions.map((option, i) => (
               <Button
                 key={i}
                 isSelected={isSelected(selected, option.interval)}
-                onClick={() => handleSchedule(option.interval)}
-                content={option.content}
-              />
+                onClick={() => handleSchedule(option.interval)}>
+                {option.content}
+              </Button>
             ))}
           </div>
           <button
             className="hover:underline w-full text-center pt-2"
-            onClick={() => setOpen(false)}>
-            Close
+            onClick={() => logout()}>
+            Logout
           </button>
         </div>
       </div>
