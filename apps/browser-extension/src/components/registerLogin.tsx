@@ -23,8 +23,6 @@ const RegisterLogin = () => {
     registerUser(data)
       .then((res) => registerHandler && registerHandler(res))
       .catch((e) => {
-        //check error code 409
-        //if()
         setError("password", {
           type: "server",
           message: e.response.data.message,
@@ -34,10 +32,10 @@ const RegisterLogin = () => {
   const handleLogin = async (data: LoginData) => {
     loginUser(data)
       .then((res) => loginHandler && loginHandler(res))
-      .catch(() => {
+      .catch((e) => {
         setError("password", {
           type: "server",
-          message: "Login failed, check your password.",
+          message: e.response.data.message,
         })
       })
   }
@@ -49,7 +47,11 @@ const RegisterLogin = () => {
     <>
       <div className="flex min-h-full flex-col justify-center px-14 py-2">
         <div>
-          {/* logo here */}
+          <div className="flex justify-center w-full">
+            <div className="rounded-md text-white bg-black">
+              <h1 className="font-bold text-4xl">[A-H]</h1>
+            </div>
+          </div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-100">
             Create an account
           </h2>
@@ -122,7 +124,7 @@ const Button = ({
   return (
     <button
       onClick={onClick}
-      className="bg-border-gray-300 border text-gray-100 flex w-full justify-center rounded-full p-3 text-md font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
+      className="border hover:border-gray-400 hover:text-gray-400 text-gray-100 flex w-full justify-center rounded-full p-3 text-md font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
       {children}
     </button>
   )

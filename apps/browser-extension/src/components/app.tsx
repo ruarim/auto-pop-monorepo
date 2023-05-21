@@ -77,13 +77,6 @@ const App = () => {
   const defaultWidth = "w-[120px]"
   const loginWidth = "w-[400px]"
 
-  // if (userLoading && isLoggedIn)
-  //   return (
-  //     <div className={`${defaultWidth} flex justify-center`}>
-  //       <Spinner />
-  //     </div>
-  //   )
-
   if (!isLoggedIn)
     return (
       <div className={loginWidth}>
@@ -94,7 +87,7 @@ const App = () => {
   if (!isOpen)
     return (
       <button className={defaultWidth} onClick={() => setOpen(true)}>
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full h-full">
           <div className="rounded-md text-white bg-black">
             <h1 className="font-bold text-2xl">[A-H]</h1>
           </div>
@@ -108,7 +101,7 @@ const App = () => {
       <div className={defaultWidth}>
         <div className="space-y-2">
           <div className="flex justify-between h-full">
-            <h1 className="font-bold text-xl">[A-H]</h1>
+            <h1 className="font-bold text-2xl">[A-H]</h1>
             <button
               className="hover:underline text-center w-7"
               onClick={() => setOpen(false)}>
@@ -119,17 +112,21 @@ const App = () => {
           {isRefreshing && (
             <ProgressBar currentProgress={refreshProgress} max={numProducts} />
           )}
+
           <Button onClick={handleRefresh}>Refresh All</Button>
-          <div className="space-y-2">
+
+          <div>
             <h2 className="text-center w-full ">Schedule</h2>
-            {scheduleOptions.map((option, i) => (
-              <Button
-                key={i}
-                isSelected={isSelected(selected, option.interval)}
-                onClick={() => handleSchedule(option.interval)}>
-                {option.content}
-              </Button>
-            ))}
+            <div className="space-y-2">
+              {scheduleOptions.map((option, i) => (
+                <Button
+                  key={i}
+                  isSelected={isSelected(selected, option.interval)}
+                  onClick={() => handleSchedule(option.interval)}>
+                  {option.content}
+                </Button>
+              ))}
+            </div>
           </div>
           <button
             className="hover:underline w-full text-center pt-2"
