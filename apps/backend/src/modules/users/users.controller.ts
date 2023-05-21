@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Param,
   UseGuards,
   Request,
 } from '@nestjs/common';
@@ -12,6 +11,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user-dto';
 import { SetDepopTokenDto } from './dto/set-depop-token-dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { User } from './entities/user.entity';
 
 @Controller('users')
 export class UsersController {
@@ -27,18 +27,20 @@ export class UsersController {
     return this.usersService.login(loginUserDto);
   }
 
-  @Post(':id/depopToken')
+  @Post('depopToken')
+  @UseGuards(JwtAuthGuard)
   setDepopToken(
-    @Param('id') id: number,
     @Body() setDepopTokenDto: SetDepopTokenDto,
+    @Request() request: { user: User },
   ) {
-    return this.usersService.setDepopToken(id, setDepopTokenDto.token);
+    const user = request.user;
+    return this.usersService.setDepopToken(user.id, setDepopTokenDto.token);
   }
 
   @Get('')
   @UseGuards(JwtAuthGuard)
-  getUser(@Request() request: any) {
-    const user = request.user;
+  getUser(@Request() request: { user: User }) {
+    const user = request.user as User;
     return this.usersService.getUser(user);
   }
 

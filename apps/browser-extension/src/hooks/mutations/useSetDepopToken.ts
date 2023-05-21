@@ -10,7 +10,7 @@ type SetDepopTokenData = {
 const useSetDepopToken = () => {
   return useMutation<UserResponse, unknown, SetDepopTokenData>({
     mutationFn: (data) => {
-      return client.post("/user/setToken", data)
+      return client.post("/users/depopToken", data)
     },
   })
 }

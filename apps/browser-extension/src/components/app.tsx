@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-import { USER_COOKIE_NAME } from "~globals"
-import { useAuthContext } from "~src/hooks/context/useAuthContext"
+import { ACCESS_COOKIE_NAME, USER_COOKIE_NAME } from "~globals"
 import useRefresh from "~src/hooks/mutations/useRefresh"
+import useSetDepopToken from "~src/hooks/mutations/useSetDepopToken"
 import useGetProduct from "~src/hooks/queries/useGetProduct"
 import useGetShopProducts from "~src/hooks/queries/useGetShopProducts"
 import useUser from "~src/hooks/queries/useUser"
@@ -10,20 +10,21 @@ import delay from "~src/utils/delay"
 import { getCookie } from "~src/utils/getCookie"
 
 import Button from "./button"
-import Layout from "./layout"
 import Progress from "./progress"
 import RegisterLogin from "./registerLogin"
+import Spinner from "./spinner"
 
 const App = () => {
   const [isRefreshing, setRefreshing] = useState(false)
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(true)
   const [selected, setSelected] = useState<number>()
   const [refreshProgress, setRefreshProgress] = useState(0)
   const [numProducts, setNumProducts] = useState(0)
   const user_id = getCookie(USER_COOKIE_NAME)
+  const depopToken = getCookie(ACCESS_COOKIE_NAME)
   const { mutateAsync: refresh } = useRefresh()
-  const { isLoggedIn } = useAuthContext()
   const { data: user, isLoading: userLoading } = useUser()
+  const { mutateAsync: setDepopToken } = useSetDepopToken()
 
   //from backend?
   const scheduleOptions = [
@@ -32,17 +33,15 @@ const App = () => {
     { content: "24hrs", interval: 24 },
   ]
 
-  //get current Schedule
-  //will come from api
-  //getUser()
-  //user.schedule
+  useEffect(() => {
+    if (user) setDepopToken({ token: depopToken })
+  }, [user, depopToken])
 
   const isSelected = (selected: number, schedule: number) => {
     return selected == schedule ? true : false
   }
 
   const handleRefresh = async () => {
-    //doesnt work
     if (!user_id) return alert("Login to use Auto-Hustler") //use custom modal
 
     setRefreshing(true)
@@ -76,14 +75,21 @@ const App = () => {
   const defaultWidth = "w-[120px]"
   const loginWidth = "w-[400px]"
 
-  if (!user && !userLoading)
+  if (userLoading)
+    return (
+      <div className={`${defaultWidth} flex justify-center`}>
+        <Spinner />
+      </div>
+    )
+
+  if (!user)
     return (
       <div className={loginWidth}>
         <RegisterLogin />
       </div>
     )
 
-  if (!isOpen && !userLoading)
+  if (!isOpen)
     return (
       <button className={defaultWidth} onClick={() => setOpen(true)}>
         <div className="flex justify-center w-full">
@@ -94,7 +100,7 @@ const App = () => {
       </button>
     )
 
-  if (isOpen && !userLoading)
+  if (isOpen)
     //animate transition on open with headless or radix
     return (
       <div className={defaultWidth}>
