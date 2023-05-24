@@ -1,4 +1,30 @@
-import client from "~src/axios/client"
+import client from "~src/axios/depopClient"
+
+export type Product = {
+  id: number
+  slug: string
+  pictures: {
+    id: number
+    width: number
+    height: number
+    url: string
+  }[][]
+  price: {
+    priceAmount: string
+    currencyName: string
+    nationalShippingCost: string
+    internationalShippingCost?: string
+  }
+}
+
+export type ProductsResponse = {
+  meta: {
+    limit: number
+    last_offset_id: string
+    end: boolean
+  }
+  products: Product[]
+}
 
 const getShopPaginated = async (
   shopId: string,
@@ -8,10 +34,12 @@ const getShopPaginated = async (
   const res = await client.get(
     `/v1/shop/${shopId}/products/?limit=1000&offset_id=${offsetId}`,
   )
-  const data = res.data
-  products.push(data.products)
+  const data = res.data as ProductsResponse
 
-  if (!data.meta.end) return getShopPaginated(shopId, data.meta.last_offset_id, products)
+  data.products.map((product) => products.push(product))
+
+  if (!data.meta.end)
+    return getShopPaginated(shopId, data.meta.last_offset_id, products)
   else return products
 }
 const useGetShopProducts = async (shopId: string) => {

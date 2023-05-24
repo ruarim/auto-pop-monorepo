@@ -1,20 +1,21 @@
 import clsx from "clsx"
+import type { ReactNode } from "react"
 
 interface ButtonProps {
   onClick?: () => void
-  content?: string
+  children?: ReactNode
   isSelected?: boolean
 }
-const Button = ({ onClick, content, isSelected }: ButtonProps) => {
+const Button = ({ onClick, children, isSelected }: ButtonProps) => {
   return (
     <CornerBorder>
       <button
         className={clsx(
-          "hover:bg-gray-700 w-full p-3 flex justify-center",
-          isSelected && "bg-gray-800",
+          "hover:bg-gray-600 w-full p-3 flex justify-center",
+          isSelected && "bg-gray-700",
         )}
         onClick={onClick}>
-        <p>{content}</p>
+        <p>{children}</p>
       </button>
     </CornerBorder>
   )
