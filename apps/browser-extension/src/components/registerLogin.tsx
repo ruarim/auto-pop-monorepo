@@ -18,8 +18,6 @@ const RegisterLogin = () => {
   const { registerHandler, loginHandler } = useAuthContext()
 
   const handleRegister = async (data: LoginData) => {
-    console.log(data)
-
     registerUser(data)
       .then((res) => registerHandler && registerHandler(res))
       .catch((e) => {
