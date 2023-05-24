@@ -6,16 +6,16 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { UserDto } from './dto/user.dto';
 import { User } from './entities/user.entity';
 import * as argon2 from 'argon2';
+import { UserRepository } from './repositories/user.respository';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: UserRepository,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -37,11 +37,12 @@ export class UsersService {
     const { email, password } = userDto;
 
     const user = await this.findByEmail(email);
+
     if (!user) throw new NotFoundException('User does not exists');
 
     if (await argon2.verify(user.password, password))
       return this.buildUserReturnObject(user);
-    else throw new UnauthorizedException('incorrect password');
+    else throw new UnauthorizedException('Incorrect password');
   }
 
   async setDepopToken(id: number, token: string) {

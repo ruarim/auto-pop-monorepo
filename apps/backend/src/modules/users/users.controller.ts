@@ -9,7 +9,7 @@ import {
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
 import { SetDepopTokenDto } from './dto/set-depop-token-dto';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { User } from './entities/user.entity';
 
 @Controller('users')
