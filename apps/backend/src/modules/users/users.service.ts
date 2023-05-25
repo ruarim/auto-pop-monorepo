@@ -7,7 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from './dto/user.dto';
-import { User } from './entities/user.entity';
+import { RefreshIntervals, User } from './entities/user.entity';
 import * as argon2 from 'argon2';
 import { UserRepository } from './repositories/user.respository';
 
@@ -45,11 +45,16 @@ export class UsersService {
     else throw new UnauthorizedException('Incorrect password');
   }
 
-  async setDepopToken(id: number, token: string) {
-    const user = await this.findById(id);
-    if (!user) throw new NotFoundException('User does not exists');
-
+  async setDepopUser(user: User, token: string, depopId: number) {
     user.depopToken = token;
+    user.depopId = depopId;
+    const updatedUser = await this.userRepository.save(user);
+
+    return this.buildUserReturnObject(updatedUser);
+  }
+
+  async setRefreshSchedule(schedule: RefreshIntervals, user: User) {
+    user.refreshSchedule = schedule;
     const updatedUser = await this.userRepository.save(user);
 
     return this.buildUserReturnObject(updatedUser);
@@ -72,6 +77,8 @@ export class UsersService {
       id: user.id,
       email: user.email,
       token: this.generateJWT(user),
+      depopId: user.depopId,
+      schedule: user.refreshSchedule,
     };
     return returnUser;
   }

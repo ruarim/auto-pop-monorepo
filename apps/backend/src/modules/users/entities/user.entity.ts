@@ -17,10 +17,19 @@ export class User {
   @Column({ nullable: true })
   public depopToken: string;
 
+  @Column({ nullable: true })
+  public depopId: number;
+
+  @Column({ nullable: true })
+  public refreshSchedule: RefreshIntervals;
+
+  @Column({ default: 0 })
+  public requests: number;
+
   @BeforeInsert()
   async hashPassword() {
     this.password = await argon2.hash(this.password);
   }
-
-  //number of requests? 
 }
+
+export type RefreshIntervals = 3 | 6 | 12;

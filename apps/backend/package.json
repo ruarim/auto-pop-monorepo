@@ -27,6 +27,7 @@
     "@nestjs/mapped-types": "^1.2.2",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.4.1",
+    "@nestjs/schedule": "^2.2.2",
     "@nestjs/typeorm": "^9.0.1",
     "@types/passport": "^1.0.12",
     "argon2": "^0.30.3",
