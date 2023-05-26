@@ -60,6 +60,11 @@ export class UsersService {
     return this.buildUserReturnObject(updatedUser);
   }
 
+  async incrementRequestCount(user: User) {
+    user.requests++;
+    await this.userRepository.save(user);
+  }
+
   async getUser(user: User) {
     return this.buildUserReturnObject(user);
   }

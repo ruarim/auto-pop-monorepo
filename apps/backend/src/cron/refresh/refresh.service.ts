@@ -43,6 +43,7 @@ export class RefreshCronService {
           slug: product.slug,
           accessToken: user.depopToken,
         });
+        await this.usersService.incrementRequestCount(user);
       } catch (e) {
         console.log(e);
       }

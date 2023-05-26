@@ -20,7 +20,7 @@ export class User {
   @Column({ nullable: true })
   public depopId: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: 0 })
   public refreshSchedule: RefreshIntervals;
 
   @Column({ default: 0 })
