@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { RefreshCronService } from './cron/refresh/refresh.service';
 
 @Module({
   imports: [
@@ -19,5 +20,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot(),
     UsersModule,
   ],
+  providers: [RefreshCronService],
 })
 export class AppModule {}

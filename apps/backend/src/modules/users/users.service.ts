@@ -72,6 +72,12 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { id } });
   }
 
+  async findJobs(interval: RefreshIntervals) {
+    return await this.userRepository.find({
+      where: { refreshSchedule: interval },
+    });
+  }
+
   private buildUserReturnObject(user: User) {
     const returnUser = {
       id: user.id,

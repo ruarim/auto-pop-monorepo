@@ -32,4 +32,4 @@ export class User {
   }
 }
 
-export type RefreshIntervals = 3 | 6 | 12;
+export type RefreshIntervals = 6 | 12 | 24;

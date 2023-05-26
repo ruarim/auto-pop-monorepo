@@ -1,10 +1,7 @@
-import { useQueryClient } from "@tanstack/react-query"
 import { useEffect, useState } from "react"
 
 import { ACCESS_COOKIE_NAME, USER_COOKIE_NAME } from "~globals"
 import { useAuthContext } from "~src/hooks/context/useAuthContext"
-import useRefresh from "~src/hooks/mutations/useRefresh"
-import useSetRefreshSchedule from "~src/hooks/mutations/useScheduleRefresh"
 import useSetDepopUser from "~src/hooks/mutations/useSetDepopUser"
 import useUser from "~src/hooks/queries/useUser"
 import { getCookie } from "~src/utils/getCookie"
@@ -18,7 +15,7 @@ const App = () => {
   const depopId = Number(getCookie(USER_COOKIE_NAME))
   const depopToken = getCookie(ACCESS_COOKIE_NAME)
 
-  const { data: userData, isLoading: userLoading } = useUser()
+  const { data: userData } = useUser()
   const { mutateAsync: setDepopUser } = useSetDepopUser()
   const { isLoggedIn } = useAuthContext()
 
@@ -31,7 +28,7 @@ const App = () => {
   const defaultWidth = "w-[120px]"
   const loginWidth = "w-[400px]"
 
-  if (!isLoggedIn && !userLoading)
+  if (!isLoggedIn && userData)
     return (
       <div className={loginWidth}>
         <RegisterLogin />
@@ -46,7 +43,6 @@ const App = () => {
     )
 
   if (isOpen && isLoggedIn && user)
-    //animate open
     return (
       <div className={defaultWidth}>
         <Widget

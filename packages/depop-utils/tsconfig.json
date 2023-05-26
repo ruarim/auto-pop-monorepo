@@ -1,13 +1,12 @@
 {
-    "compilerOptions": {
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "isolatedModules": true,
-      "moduleResolution": "node",
-      "preserveWatchOutput": true,
-      "skipLibCheck": true,
-      "noEmit": true,
-      "strict": true
-    },
-    "exclude": ["node_modules"]
-  }
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

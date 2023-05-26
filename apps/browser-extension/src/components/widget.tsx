@@ -22,7 +22,7 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
     return selected == schedule ? true : false
   }
   const queryClient = useQueryClient()
-  const { logout } = useAuthContext()
+  const { logout, isLoggedIn } = useAuthContext()
   const { mutateAsync: refresh } = useRefresh()
   const { mutateAsync: setRefreshSchedule } = useSetRefreshSchedule()
   const [isRefreshing, setRefreshing] = useState(false)
@@ -35,7 +35,6 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
   }
 
   const handleRefresh = async () => {
-    //create isLogggedInDepop hook
     if (!depopId) return alert("Login to use Auto-Hustler")
 
     setRefreshing(true)
@@ -64,7 +63,6 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
     }
   }
 
-  //from backend?
   const scheduleOptions = [
     { content: "6hrs", interval: 6 },
     { content: "12hrs", interval: 12 },
@@ -101,6 +99,7 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
           ))}
         </div>
       </div>
+
       <button
         className="hover:underline w-full text-center pt-2"
         onClick={() => logout()}>
