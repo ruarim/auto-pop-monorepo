@@ -14,9 +14,6 @@ client.interceptors.request.use(
     return {
       ...config,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-        Accept: "application/json",
         Authorization: `Bearer ${acces_token}`,
       },
     }

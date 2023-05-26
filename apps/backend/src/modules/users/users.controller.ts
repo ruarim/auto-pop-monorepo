@@ -35,7 +35,7 @@ export class UsersController {
     const user = request.user;
     return this.usersService.setDepopUser(
       user,
-      setDepopUserDto.token,
+      setDepopUserDto.depopToken,
       setDepopUserDto.depopId,
     );
   }

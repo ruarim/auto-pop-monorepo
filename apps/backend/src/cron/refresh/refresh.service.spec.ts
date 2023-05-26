@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RefreshCronService } from './cron.service';
+import { RefreshCronService } from './refresh.service';
 
 describe('CronService', () => {
   let service: RefreshCronService;

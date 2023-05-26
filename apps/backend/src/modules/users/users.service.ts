@@ -45,8 +45,8 @@ export class UsersService {
     else throw new UnauthorizedException('Incorrect password');
   }
 
-  async setDepopUser(user: User, token: string, depopId: number) {
-    user.depopToken = token;
+  async setDepopUser(user: User, depopToken: string, depopId: number) {
+    user.depopToken = depopToken;
     user.depopId = depopId;
     const updatedUser = await this.userRepository.save(user);
 
@@ -78,7 +78,7 @@ export class UsersService {
       email: user.email,
       token: this.generateJWT(user),
       depopId: user.depopId,
-      schedule: user.refreshSchedule,
+      refreshSchedule: user.refreshSchedule,
     };
     return returnUser;
   }

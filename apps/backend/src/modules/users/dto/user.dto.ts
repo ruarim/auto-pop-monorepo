@@ -9,7 +9,7 @@ export class UserDto {
   password: string;
 
   @IsString()
-  token?: string;
+  depopToken?: string;
 
   @IsNumber()
   depopId?: number;

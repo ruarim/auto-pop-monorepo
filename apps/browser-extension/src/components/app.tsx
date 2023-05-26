@@ -1,14 +1,14 @@
 import { XMarkIcon } from "@heroicons/react/20/solid"
+import { useQueryClient } from "@tanstack/react-query"
+import { getProduct, getShopProducts } from "depop-utils"
 import { useEffect, useState } from "react"
 
 import { ACCESS_COOKIE_NAME, USER_COOKIE_NAME } from "~globals"
 import { useAuthContext } from "~src/hooks/context/useAuthContext"
 import useRefresh from "~src/hooks/mutations/useRefresh"
-import useSetDepopToken from "~src/hooks/mutations/useSetDepopToken"
-import useGetProduct from "~src/hooks/queries/useGetProduct"
-import useGetShopProducts from "~src/hooks/queries/useGetShopProducts"
+import useSetRefreshSchedule from "~src/hooks/mutations/useScheduleRefresh"
+import useSetDepopUser from "~src/hooks/mutations/useSetDepopUser"
 import useUser from "~src/hooks/queries/useUser"
-import delay from "~src/utils/delay"
 import { getCookie } from "~src/utils/getCookie"
 
 import Button from "./button"
@@ -16,17 +16,20 @@ import Progress from "./progress"
 import RegisterLogin from "./registerLogin"
 
 const App = () => {
+  const queryClient = useQueryClient()
   const [isRefreshing, setRefreshing] = useState(false)
   const [isOpen, setOpen] = useState(true)
-  const [selected, setSelected] = useState<number>()
   const [refreshProgress, setRefreshProgress] = useState(0)
   const [numProducts, setNumProducts] = useState(0)
-  const user_id = getCookie(USER_COOKIE_NAME)
+  const depopId = Number(getCookie(USER_COOKIE_NAME))
   const depopToken = getCookie(ACCESS_COOKIE_NAME)
   const { mutateAsync: refresh } = useRefresh()
-  const { data: user, isLoading: userLoading } = useUser()
-  const { mutateAsync: setDepopToken } = useSetDepopToken()
+  const { data: userData } = useUser()
+  const { mutateAsync: setDepopUser } = useSetDepopUser()
   const { logout, isLoggedIn } = useAuthContext()
+  const { mutateAsync: setRefreshSchedule } = useSetRefreshSchedule()
+
+  const user = userData?.data
 
   //from backend?
   const scheduleOptions = [
@@ -36,26 +39,30 @@ const App = () => {
   ]
 
   useEffect(() => {
-    if (user) setDepopToken({ token: depopToken })
-  }, [user, depopToken])
+    if (user) setDepopUser({ depopToken, depopId })
+  }, [user, depopToken, depopId])
 
   const isSelected = (selected: number, schedule: number) => {
     return selected == schedule ? true : false
   }
 
   const handleRefresh = async () => {
-    if (!user_id) return alert("Login to use Auto-Hustler") //use custom modal
+    //create isLogggedInDepop hook
+    if (!depopId) return alert("Login to use Auto-Hustler")
 
     setRefreshing(true)
     try {
-      const products = (await useGetShopProducts(user_id)).flat()
+      const products = (await getShopProducts(depopId)).flat()
       setNumProducts(products.length)
       for (const product of products) {
         try {
           setRefreshProgress((prevState) => prevState + 1)
-          const productData = await useGetProduct(product.slug)
-          await refresh({ slug: product.slug, product: productData.data })
-          await delay(500)
+          const productData = await getProduct(product.slug, depopToken)
+          await refresh({
+            slug: product.slug,
+            product: productData.data,
+            accessToken: depopToken,
+          })
         } catch (e) {
           console.log(e)
         }
@@ -67,11 +74,9 @@ const App = () => {
     setRefreshProgress(0)
   }
 
-  const handleSchedule = (schedule: number) => {
-    //this should post to schedule endpoint for current user_id
-    //replace setSeleced with mutateSchedule calling api
-    if (isSelected(selected, schedule)) setSelected(undefined)
-    else setSelected(schedule)
+  const handleSchedule = async (schedule: number) => {
+    await setRefreshSchedule({ schedule })
+    queryClient.invalidateQueries(["user"])
   }
 
   const defaultWidth = "w-[120px]"
@@ -95,7 +100,7 @@ const App = () => {
       </button>
     )
 
-  if (isOpen && isLoggedIn)
+  if (isOpen && isLoggedIn && user)
     //animate transition on open with headless or radix
     return (
       <div className={defaultWidth}>
@@ -121,7 +126,7 @@ const App = () => {
               {scheduleOptions.map((option, i) => (
                 <Button
                   key={i}
-                  isSelected={isSelected(selected, option.interval)}
+                  isSelected={isSelected(user.refreshSchedule, option.interval)}
                   onClick={() => handleSchedule(option.interval)}>
                   {option.content}
                 </Button>

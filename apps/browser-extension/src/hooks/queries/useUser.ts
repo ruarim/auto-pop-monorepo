@@ -4,10 +4,23 @@ import client from "~src/axios/backendClient"
 
 import { useAuthContext } from "../context/useAuthContext"
 
+type User = {
+  id: number
+  email: string
+  depopToken: string
+  depopId: number
+  refreshSchedule: number
+  requests: number
+}
+
+type UserResponse = {
+  data: User
+}
+
 const useUser = () => {
   const { isLoggedIn } = useAuthContext()
 
-  return useQuery({
+  return useQuery<UserResponse>({
     queryKey: ["user"],
     queryFn: () => {
       return client.get("/users")
