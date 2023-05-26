@@ -101,7 +101,7 @@ describe('UsersService', () => {
         depopToken: 'token',
         hashPassword: () => Promise.resolve(),
         requests: 0,
-        refreshSchedule: 3,
+        refreshSchedule: 6,
         depopId: 0,
       });
 
@@ -126,7 +126,7 @@ describe('UsersService', () => {
         depopToken: 'token',
         hashPassword: () => Promise.resolve(),
         requests: 0,
-        refreshSchedule: 3,
+        refreshSchedule: 6,
         depopId: 0,
       });
 
