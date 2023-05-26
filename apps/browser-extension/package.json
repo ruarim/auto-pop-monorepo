@@ -16,7 +16,7 @@
     "axios": "1.1.3",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.5",
-    "depop-utils": "file:packages/depop-utils",
+    "depop-utils": "^0.0.1",
     "plasmo": "0.57.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

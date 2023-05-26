@@ -1,14 +1,15 @@
 import client, { addBearerToken } from "../../axios/client";
-import type { Product } from "../queries/getShopProducts";
+import { getProduct } from "../queries/getProduct";
 
 export type RefreshData = {
   slug: string;
-  product: Product;
   accessToken: string;
 };
 
-export const refresh = (data: RefreshData) => {
-  const product = data.product;
+export const refresh = async (data: RefreshData) => {
+  const productData = await getProduct(data.slug, data.accessToken);
+  const product = productData.data;
+
   const refreshData = {
     ...product,
     priceAmount: product.price.priceAmount,
