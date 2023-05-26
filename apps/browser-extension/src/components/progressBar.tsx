@@ -2,6 +2,23 @@ import * as ProgressPrimitive from "@radix-ui/react-progress"
 import clsx from "clsx"
 import * as React from "react"
 
+const ProgressBar = ({
+  currentProgress,
+  max,
+}: {
+  currentProgress: number
+  max: number
+}) => {
+  const progress = Math.floor((currentProgress / max) * 100)
+
+  return (
+    <div className="text-white space-y-1">
+      <h2>Refreshing...</h2>
+      <Progress value={progress} className="w-full h-4 " />
+    </div>
+  )
+}
+
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
@@ -21,4 +38,4 @@ const Progress = React.forwardRef<
 ))
 Progress.displayName = ProgressPrimitive.Root.displayName
 
-export default Progress
+export default ProgressBar
