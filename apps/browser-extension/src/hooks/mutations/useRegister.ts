@@ -4,7 +4,14 @@ import client from "~src/axios/backendClient"
 
 import type { LoginData } from "./useLogin"
 
-export type User = { id: number; email: string; token: string }
+export type User = {
+  id: number
+  email: string
+  token: string
+  refreshSchedule: number
+  depopToken: string
+  depopId: number
+}
 export type UserResponse = {
   data: User
 }

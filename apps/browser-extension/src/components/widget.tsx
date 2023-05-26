@@ -5,6 +5,7 @@ import { useState } from "react"
 
 import { useAuthContext } from "~src/hooks/context/useAuthContext"
 import useRefresh from "~src/hooks/mutations/useRefresh"
+import type { User } from "~src/hooks/mutations/useRegister"
 import useSetRefreshSchedule from "~src/hooks/mutations/useScheduleRefresh"
 
 import Button from "./button"
@@ -14,7 +15,7 @@ type WidgetProps = {
   setOpen: (isOpen: boolean) => void
   depopId: number //can get from user
   depopToken: string
-  user: any
+  user: User
 }
 
 const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
@@ -22,7 +23,7 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
     return selected == schedule ? true : false
   }
   const queryClient = useQueryClient()
-  const { logout, isLoggedIn } = useAuthContext()
+  const { logout } = useAuthContext()
   const { mutateAsync: refresh } = useRefresh()
   const { mutateAsync: setRefreshSchedule } = useSetRefreshSchedule()
   const [isRefreshing, setRefreshing] = useState(false)
@@ -30,6 +31,7 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
   const [numProducts, setNumProducts] = useState(0)
 
   const handleSchedule = async (schedule: number) => {
+    if (isSelected(schedule, user.refreshSchedule)) schedule = 0
     await setRefreshSchedule({ schedule })
     queryClient.invalidateQueries(["user"])
   }
