@@ -1,8 +1,8 @@
 {
   "name": "auto-hustler-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Depop automation tool backend",
+  "author": "RuariM",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
