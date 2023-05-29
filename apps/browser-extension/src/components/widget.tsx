@@ -5,20 +5,19 @@ import { useState } from "react"
 
 import { useAuthContext } from "~src/hooks/context/useAuthContext"
 import useRefresh from "~src/hooks/mutations/useRefresh"
-import type { User } from "~src/hooks/mutations/useRegister"
 import useSetRefreshSchedule from "~src/hooks/mutations/useScheduleRefresh"
+import useUser from "~src/hooks/queries/useUser"
 
 import Button from "./button"
 import ProgressBar from "./progressBar"
 
 type WidgetProps = {
   setOpen: (isOpen: boolean) => void
-  depopId: number //can get from user
+  depopId: number
   depopToken: string
-  user: User
 }
 
-const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
+const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   const isSelected = (selected: number, schedule: number) => {
     return selected == schedule ? true : false
   }
@@ -29,6 +28,8 @@ const Widget = ({ setOpen, depopId, depopToken, user }: WidgetProps) => {
   const [isRefreshing, setRefreshing] = useState(false)
   const [refreshProgress, setRefreshProgress] = useState(0)
   const [numProducts, setNumProducts] = useState(0)
+  const { data: userData } = useUser()
+  const user = userData?.data
 
   const handleSchedule = async (schedule: number) => {
     if (isSelected(schedule, user.refreshSchedule)) schedule = 0

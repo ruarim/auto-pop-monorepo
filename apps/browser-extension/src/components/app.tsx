@@ -25,10 +25,10 @@ const App = () => {
     if (user) setDepopUser({ depopToken, depopId })
   }, [user, depopToken, depopId])
 
-  const defaultWidth = "w-[120px]"
+  const widgetWidth = "w-[120px]"
   const loginWidth = "w-[400px]"
 
-  if (!isLoggedIn && userData)
+  if (isLoggedIn !== undefined && !isLoggedIn)
     return (
       <div className={loginWidth}>
         <RegisterLogin />
@@ -37,20 +37,15 @@ const App = () => {
 
   if (!isOpen)
     return (
-      <button className={defaultWidth} onClick={() => setOpen(true)}>
+      <button className={widgetWidth} onClick={() => setOpen(true)}>
         <Logo />
       </button>
     )
 
   if (isOpen && isLoggedIn && user)
     return (
-      <div className={defaultWidth}>
-        <Widget
-          setOpen={setOpen}
-          depopId={depopId}
-          depopToken={depopToken}
-          user={user}
-        />
+      <div className={widgetWidth}>
+        <Widget setOpen={setOpen} depopId={depopId} depopToken={depopToken} />
       </div>
     )
 }

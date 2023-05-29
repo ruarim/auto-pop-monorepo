@@ -9,7 +9,6 @@ export type User = {
   email: string
   token: string
   refreshSchedule: number
-  depopToken: string
   depopId: number
 }
 export type UserResponse = {

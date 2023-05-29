@@ -22,7 +22,7 @@ const AuthContext = createContext<Partial<AuthContextInterface>>({
 })
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>()
   const queryClient = useQueryClient()
 
   async function loginHandler(data: UserResponse) {
