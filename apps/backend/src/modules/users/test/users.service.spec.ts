@@ -100,6 +100,9 @@ describe('UsersService', () => {
         password: await argon2.hash(password),
         depopToken: 'token',
         hashPassword: () => Promise.resolve(),
+        requests: 0,
+        refreshSchedule: 6,
+        depopId: 0,
       });
 
       const result = await service.login({ email, password });
@@ -122,11 +125,14 @@ describe('UsersService', () => {
         password: await argon2.hash('test'),
         depopToken: 'token',
         hashPassword: () => Promise.resolve(),
+        requests: 0,
+        refreshSchedule: 6,
+        depopId: 0,
       });
 
-      await expect(service.login({ email, password: incorrectPassword })).rejects.toThrow(
-        UnauthorizedException,
-      );
+      await expect(
+        service.login({ email, password: incorrectPassword }),
+      ).rejects.toThrow(UnauthorizedException);
       expect(service.findByEmail).toHaveBeenCalledWith(email);
     });
 
@@ -149,10 +155,15 @@ describe('UsersService', () => {
     user.email = 'test@test.com';
     user.password = 'test';
     user.depopToken = 'token';
+    user.depopId = 1;
 
     jest.spyOn(service, 'findById').mockResolvedValueOnce(user);
 
-    const result = await service.setDepopToken(user.id, user.depopToken);
+    const result = await service.setDepopUser(
+      user,
+      user.depopToken,
+      user.depopId,
+    );
 
     expect(service.findById).toHaveBeenCalledWith(user.id);
 

@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/user.dto';
-import { SetDepopTokenDto } from './dto/set-depop-token-dto';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { User } from './entities/user.entity';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -26,28 +26,36 @@ export class UsersController {
     return this.usersService.login(loginUserDto);
   }
 
-  @Post('depopToken')
+  @Post('depopUser')
   @UseGuards(JwtAuthGuard)
   setDepopToken(
-    @Body() setDepopTokenDto: SetDepopTokenDto,
+    @Body() setDepopUserDto: UpdateUserDto,
     @Request() request: { user: User },
   ) {
     const user = request.user;
-    return this.usersService.setDepopToken(user.id, setDepopTokenDto.token);
+    return this.usersService.setDepopUser(
+      user,
+      setDepopUserDto.depopToken,
+      setDepopUserDto.depopId,
+    );
   }
 
   @Get('')
   @UseGuards(JwtAuthGuard)
   getUser(@Request() request: { user: User }) {
-    const user = request.user as User;
+    const user = request.user;
     return this.usersService.getUser(user);
   }
 
-  //create refresh schedule
+  @Post('refreshSchedule')
+  @UseGuards(JwtAuthGuard)
+  setRefreshSchedule(
+    @Body() setScheduleDto: UpdateUserDto,
+    @Request() request: { user: User },
+  ) {
+    const user = request.user;
+    const schedule = setScheduleDto.schedule;
 
-  //call schedule service here
-  //@Get()
-  //getRefreshSchedule(id: number){
-  //return this.jobsService.findUserScheduleById({where: {id}})
-  //}
+    return this.usersService.setRefreshSchedule(schedule, user);
+  }
 }

@@ -11,7 +11,7 @@ const Button = ({ onClick, children, isSelected }: ButtonProps) => {
     <CornerBorder>
       <button
         className={clsx(
-          "hover:bg-gray-600 w-full p-3 flex justify-center",
+          "hover:bg-gray-600 w-full p-3 flex justify-center transition hover:transition-all",
           isSelected && "bg-gray-700",
         )}
         onClick={onClick}>

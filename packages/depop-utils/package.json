@@ -1,0 +1,20 @@
+{
+  "name": "depop-utils",
+  "version": "0.0.1",
+  "description": "Depop api utility functions",
+  "main": "./dist/index.js",
+  "types": "./dist/index.js",
+  "author": "RuariM",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json"
+  }
+}
