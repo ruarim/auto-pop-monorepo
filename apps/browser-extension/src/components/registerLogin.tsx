@@ -38,6 +38,13 @@ const RegisterLogin = () => {
       })
   }
 
+  const handleEnter = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
+      handleSubmit(handleLogin)()
+    }
+  }
+
   const inputStyle =
     "block w-full appearance-none rounded-lg border border-gray-300 p-3 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black bg-gray-100 text-black"
 
@@ -55,9 +62,9 @@ const RegisterLogin = () => {
           </h2>
         </div>
 
-        <div className="my-4">
+        <div className="">
           <div className="px-4 space-y-6">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit(handleLogin)}>
               <div>
                 <label
                   htmlFor="email"
@@ -74,6 +81,7 @@ const RegisterLogin = () => {
                     autoComplete="email"
                     required
                     className={inputStyle}
+                    onKeyDown={handleEnter}
                   />
                 </div>
               </div>
@@ -94,6 +102,7 @@ const RegisterLogin = () => {
                     autoComplete="current-password"
                     required
                     className={inputStyle}
+                    onKeyDown={handleEnter}
                   />
                 </div>
                 <div className="text-red-600 mt-2">
@@ -101,6 +110,7 @@ const RegisterLogin = () => {
                 </div>
               </div>
             </form>
+
             <div className="flex space-x-2 justify-between">
               <Button onClick={handleSubmit(handleLogin)}>Login</Button>
               <Button onClick={handleSubmit(handleRegister)}>Register</Button>
