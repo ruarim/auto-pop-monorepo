@@ -90,7 +90,7 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
       <Button onClick={handleRefresh}>Refresh All</Button>
 
       <div>
-        <h2 className="text-center w-full ">Schedule</h2>
+        <h2 className="text-center w-full py-1">Schedule All</h2>
         <div className="space-y-2">
           {scheduleOptions.map((option, i) => (
             <Button
