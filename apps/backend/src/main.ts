@@ -10,7 +10,6 @@ async function bootstrap() {
       origin: 'https://www.depop.com',
       allowedHeaders: [
         'Origin',
-        'X-Requested-With',
         'Content-Type',
         'Accept',
         'Authorization',
@@ -19,6 +18,6 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
