@@ -10,6 +10,7 @@ async function bootstrap() {
       origin: 'https://www.depop.com',
       allowedHeaders: [
         'Origin',
+        'X-Requested-With',
         'Content-Type',
         'Accept',
         'Authorization',
