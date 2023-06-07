@@ -50,11 +50,11 @@ const RegisterLogin = () => {
 
   return (
     <>
-      <div className="flex min-h-full flex-col justify-center px-14 py-2">
+      <div className="flex min-h-full flex-col justify-center px-14 py-2 space-y-3">
         <div>
           <div className="flex justify-center w-full">
             <div className="rounded-md text-white bg-black">
-              <h1 className="font-bold text-4xl">[A-H]</h1>
+              <h1 className="font-bold text-4xl">[A-P]</h1>
             </div>
           </div>
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-100">
