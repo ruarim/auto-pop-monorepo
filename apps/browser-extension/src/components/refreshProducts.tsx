@@ -38,7 +38,7 @@ const RefreshProducts = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   }
 
   const handleRefresh = async () => {
-    if (!depopId) return alert("Login to use Auto-Hustler")
+    if (!depopId) return alert("Login to use Auto-Pop")
 
     setRefreshing(true)
     try {
@@ -76,7 +76,7 @@ const RefreshProducts = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   return (
     <div className="space-y-2">
       <div className="flex justify-between h-full">
-        <h1 className="font-bold text-2xl">[A-H]</h1>
+        <h1 className="font-bold text-2xl">[A-P]</h1>
         <button
           className="hover:underline text-center w-7"
           onClick={() => setOpen(false)}>
