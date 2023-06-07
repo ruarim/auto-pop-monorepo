@@ -8,5 +8,9 @@ type ProductResponse = {
 export const getProduct = (slug: string, accessToken: string) => {
   client.interceptors.request.use(addBearerToken(accessToken));
 
-  return client.get(`/v2/products/${slug}`) as Promise<ProductResponse>;
+  try {
+    return client.get(`/v2/products/${slug}`) as Promise<ProductResponse>;
+  } catch (e) {
+    throw e;
+  }
 };

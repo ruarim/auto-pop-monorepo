@@ -8,6 +8,8 @@ export type RefreshData = {
 
 export const refresh = async (data: RefreshData) => {
   const productData = await getProduct(data.slug, data.accessToken);
+  if (!productData) throw new Error("no product data");
+
   const product = productData.data;
 
   const refreshData = {
@@ -21,5 +23,9 @@ export const refresh = async (data: RefreshData) => {
 
   client.interceptors.request.use(addBearerToken(data.accessToken));
 
-  return client.put(`/v2/products/${data.slug}`, refreshData);
+  try {
+    return client.put(`/v2/products/${data.slug}`, refreshData);
+  } catch (e) {
+    throw e;
+  }
 };

@@ -6,8 +6,8 @@ import useSetDepopUser from "~src/hooks/mutations/useSetDepopUser"
 import useUser from "~src/hooks/queries/useUser"
 import { getCookie } from "~src/utils/getCookie"
 
+import RefreshProducts from "./refreshProducts"
 import RegisterLogin from "./registerLogin"
-import Widget from "./widget"
 
 const App = () => {
   const [isOpen, setOpen] = useState(true)
@@ -45,7 +45,11 @@ const App = () => {
   if (isOpen && isLoggedIn && user)
     return (
       <div className={widgetWidth}>
-        <Widget setOpen={setOpen} depopId={depopId} depopToken={depopToken} />
+        <RefreshProducts
+          setOpen={setOpen}
+          depopId={depopId}
+          depopToken={depopToken}
+        />
       </div>
     )
 }

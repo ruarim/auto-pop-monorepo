@@ -17,7 +17,7 @@ type WidgetProps = {
   depopToken: string
 }
 
-const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
+const RefreshProducts = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   const isSelected = (selected: number, schedule: number) => {
     return selected == schedule ? true : false
   }
@@ -56,6 +56,7 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
     for (const product of products) {
       try {
         setRefreshProgress((prevState) => prevState + 1)
+        if (product.sold) continue
         await refresh({
           slug: product.slug,
           accessToken: depopToken,
@@ -112,4 +113,4 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   )
 }
 
-export default Widget
+export default RefreshProducts

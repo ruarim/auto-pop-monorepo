@@ -30,6 +30,7 @@ export class RefreshCronService {
       const products = (await getShopProducts(user.depopId)).flat();
 
       for (const product of products) {
+        if (product.sold) continue;
         try {
           await refresh({
             slug: product.slug,
