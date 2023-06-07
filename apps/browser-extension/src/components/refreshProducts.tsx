@@ -51,19 +51,19 @@ const RefreshProducts = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   }
 
   const refreshAllProducts = async (depopId: number, depopToken: string) => {
-    const products = (await getShopProducts(depopId)).flat()
-    setNumProducts(products.length)
-    for (const product of products) {
-      try {
+    try {
+      const products = (await getShopProducts(depopId)).flat()
+      setNumProducts(products.length)
+      for (const product of products) {
         setRefreshProgress((prevState) => prevState + 1)
         if (product.sold) continue
         await refresh({
           slug: product.slug,
           accessToken: depopToken,
         })
-      } catch (e) {
-        console.log(e)
       }
+    } catch (e) {
+      console.log(`Error refreshing products: ${e.message}`)
     }
   }
 

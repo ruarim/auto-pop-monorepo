@@ -25,7 +25,7 @@ export const refresh = async (data: RefreshData) => {
 
   try {
     return client.put(`/v2/products/${data.slug}`, refreshData);
-  } catch (e) {
-    throw e;
+  } catch (e: any) {
+    throw new Error(`Failed to refresh product: ${(e as Error).message}`);
   }
 };
