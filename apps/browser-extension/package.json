@@ -1,12 +1,12 @@
 {
-  "name": "auto-hustler",
-  "displayName": "Auto-Hustler",
-  "version": "0.0.2",
+  "name": "auto-pop",
+  "displayName": "Auto-Pop",
+  "version": "0.1.1",
   "description": "A depop automation tool.",
   "author": "ruarim",
   "scripts": {
     "dev": "plasmo dev",
-    "build": "plasmo build"
+    "build": "plasmo build --zip"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",

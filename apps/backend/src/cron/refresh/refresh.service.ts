@@ -27,19 +27,24 @@ export class RefreshCronService {
     const users = await this.usersService.findJobs(interval);
 
     for (const user of users) {
-      const products = (await getShopProducts(user.depopId)).flat();
+      try {
+        const products = (await getShopProducts(user.depopId)).flat();
 
-      for (const product of products) {
-        try {
+        for (const product of products) {
+          if (product.sold) continue;
+
           await refresh({
             slug: product.slug,
             accessToken: user.depopToken,
           });
           await this.usersService.incrementRequestCount(user);
-        } catch (e) {
-          console.log(e);
+
+          await this.delay(500);
         }
-        await this.delay(500);
+      } catch (e) {
+        console.log(
+          `Failed to refresh products for user ${user.id}: ${e.message}`,
+        );
       }
     }
   }

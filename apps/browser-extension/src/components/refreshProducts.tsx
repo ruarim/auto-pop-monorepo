@@ -17,7 +17,7 @@ type WidgetProps = {
   depopToken: string
 }
 
-const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
+const RefreshProducts = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   const isSelected = (selected: number, schedule: number) => {
     return selected == schedule ? true : false
   }
@@ -38,7 +38,7 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   }
 
   const handleRefresh = async () => {
-    if (!depopId) return alert("Login to use Auto-Hustler")
+    if (!depopId) return alert("Login to use Auto-Pop")
 
     setRefreshing(true)
     try {
@@ -51,18 +51,19 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   }
 
   const refreshAllProducts = async (depopId: number, depopToken: string) => {
-    const products = (await getShopProducts(depopId)).flat()
-    setNumProducts(products.length)
-    for (const product of products) {
-      try {
+    try {
+      const products = (await getShopProducts(depopId)).flat()
+      setNumProducts(products.length)
+      for (const product of products) {
         setRefreshProgress((prevState) => prevState + 1)
+        if (product.sold) continue
         await refresh({
           slug: product.slug,
           accessToken: depopToken,
         })
-      } catch (e) {
-        console.log(e)
       }
+    } catch (e) {
+      console.log(`Error refreshing products: ${e.message}`)
     }
   }
 
@@ -75,7 +76,7 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   return (
     <div className="space-y-2">
       <div className="flex justify-between h-full">
-        <h1 className="font-bold text-2xl">[A-H]</h1>
+        <h1 className="font-bold text-2xl">[A-P]</h1>
         <button
           className="hover:underline text-center w-7"
           onClick={() => setOpen(false)}>
@@ -112,4 +113,4 @@ const Widget = ({ setOpen, depopId, depopToken }: WidgetProps) => {
   )
 }
 
-export default Widget
+export default RefreshProducts

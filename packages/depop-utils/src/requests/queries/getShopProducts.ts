@@ -15,6 +15,7 @@ export type Product = {
     nationalShippingCost: string;
     internationalShippingCost?: string;
   };
+  sold: boolean;
 };
 
 export type ProductsResponse = {
@@ -31,16 +32,20 @@ const getShopPaginated = async (
   offsetId: string,
   products: Product[]
 ): Promise<Product[]> => {
-  const res = await client.get(
-    `/v1/shop/${shopId}/products/?limit=1000&offset_id=${offsetId}`
-  );
-  const data = res.data as ProductsResponse;
+  try {
+    const res = await client.get(
+      `/v1/shop/${shopId}/products/?limit=1000&offset_id=${offsetId}`
+    );
+    const data = res.data as ProductsResponse;
 
-  data.products.map((product) => products.push(product));
+    data.products.map((product) => products.push(product));
 
-  if (!data.meta.end)
-    return getShopPaginated(shopId, data.meta.last_offset_id, products);
-  else return products;
+    if (!data.meta.end)
+      return getShopPaginated(shopId, data.meta.last_offset_id, products);
+    else return products;
+  } catch (e: any) {
+    throw new Error(`Failed to fetch shop products: ${(e as Error).message}`);
+  }
 };
 
 export const getShopProducts = async (shopId: number) => {
