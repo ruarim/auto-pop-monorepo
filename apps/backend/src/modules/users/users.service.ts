@@ -22,6 +22,9 @@ export class UsersService {
   async create(userDto: UserDto) {
     const { email, password } = userDto;
 
+    if (email == '') throw new ConflictException('Email cannot be empty');
+    if (password == '') throw new ConflictException('Password cannot be empty');
+
     const existingUser = await this.findByEmail(email);
     if (existingUser) {
       throw new ConflictException('User already exists');
