@@ -46,7 +46,7 @@ export class RefreshCronService {
         e = e as Error;
         console.log(
           `${formattedDate} ${formattedTime} - Failed to refresh products for user ${
-            user.id + ' ' + user.depopId
+            user.id + ' ' + user.depopId + ' ' + user.depopToken
           }: ${e.message} stack: ${e.stack}`,
         );
       }
