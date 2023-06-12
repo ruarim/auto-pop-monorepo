@@ -44,7 +44,9 @@ export class RefreshCronService {
       } catch (e) {
         const { formattedDate, formattedTime } = this.getDateTime();
         console.log(
-          `${formattedDate} ${formattedTime} - Failed to refresh products for user ${user.id}: ${e.message}`,
+          `${formattedDate} ${formattedTime} - Failed to refresh products for user ${
+            user.id
+          }: ${(e as Error).message}`,
         );
       }
     }
