@@ -43,10 +43,11 @@ export class RefreshCronService {
         }
       } catch (e) {
         const { formattedDate, formattedTime } = this.getDateTime();
+        e = e as Error;
         console.log(
           `${formattedDate} ${formattedTime} - Failed to refresh products for user ${
             user.id + ' ' + user.depopId
-          }: ${(e as Error).message}`,
+          }: ${e.message} stack: ${e.stack}`,
         );
       }
     }
