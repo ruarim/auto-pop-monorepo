@@ -42,12 +42,22 @@ export class RefreshCronService {
           await this.delay(500);
         }
       } catch (e) {
+        const { formattedDate, formattedTime } = this.getDateTime();
         console.log(
-          `Failed to refresh products for user ${user.id}: ${e.message}`,
+          `${formattedDate} ${formattedTime} - Failed to refresh products for user ${user.id}: ${e.message}`,
         );
       }
     }
   }
 
-  delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+  private getDateTime() {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}-${
+      currentDate.getMonth() + 1
+    }-${currentDate.getDate()}`;
+    const formattedTime = `${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+    return { formattedDate, formattedTime };
+  }
+
+  private delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 }
