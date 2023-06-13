@@ -11,6 +11,6 @@ export const getProduct = (slug: string, accessToken: string) => {
   try {
     return client.get(`/v2/products/${slug}`) as Promise<ProductResponse>;
   } catch (e: any) {
-    throw new Error(`Failed to fetch product: ${(e as Error).message}`);
+    console.log(`Failed to fetch product: ${(e as Error).message}`);
   }
 };

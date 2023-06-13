@@ -44,6 +44,7 @@ const getShopPaginated = async (
       return getShopPaginated(shopId, data.meta.last_offset_id, products);
     else return products;
   } catch (e: any) {
+    console.log(`Failed to fetch shop products: ${(e as Error).message}`);
     throw new Error(`Failed to fetch shop products: ${(e as Error).message}`);
   }
 };
