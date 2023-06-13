@@ -48,6 +48,8 @@ export class RefreshCronService {
           `${formattedDate} ${formattedTime} - Failed to refresh products for user ${
             user.id + ' ' + user.depopId + ' ' + user.depopToken
           }: ${e.message} stack: ${e.stack}`,
+          'Full error: ',
+          e,
         );
       }
     }
