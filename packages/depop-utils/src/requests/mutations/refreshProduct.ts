@@ -1,5 +1,6 @@
-import client, { addBearerToken } from "../../axios/client";
+import { DEPOP_API_ENDPOINT } from "../constants";
 import { getProduct } from "../queries/getProduct";
+import axios from "axios";
 
 export type RefreshData = {
   slug: string;
@@ -22,9 +23,15 @@ export const refresh = async (data: RefreshData) => {
       pictureIds: product.pictures.map((pic) => pic[0].id),
     };
 
-    client.interceptors.request.use(addBearerToken(data.accessToken));
-
-    return client.put(`/v2/products/${data.slug}`, refreshData);
+    return axios.put(
+      `${DEPOP_API_ENDPOINT}/v2/products/${data.slug}`,
+      refreshData,
+      {
+        headers: {
+          Authorization: `Bearer ${data.accessToken}`,
+        },
+      }
+    );
   } catch (e: any) {
     console.log(`Failed to refresh product: ${(e as Error).message}`);
   }
