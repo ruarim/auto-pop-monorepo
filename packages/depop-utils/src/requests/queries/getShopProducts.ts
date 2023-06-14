@@ -1,4 +1,5 @@
-import client from "../../axios/client";
+import { DEPOP_API_ENDPOINT } from "../constants";
+import axios from "axios";
 
 export type Product = {
   id: number;
@@ -33,8 +34,8 @@ const getShopPaginated = async (
   products: Product[]
 ): Promise<Product[]> => {
   try {
-    const res = await client.get(
-      `/v1/shop/${shopId}/products/?limit=1000&offset_id=${offsetId}`
+    const res = await axios.get(
+      `${DEPOP_API_ENDPOINT}/v1/shop/${shopId}/products/?limit=1000&offset_id=${offsetId}`
     );
     const data = res.data as ProductsResponse;
 

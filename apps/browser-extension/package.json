@@ -1,7 +1,7 @@
 {
   "name": "auto-pop",
   "displayName": "Auto-Pop",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A depop automation tool.",
   "author": "ruarim",
   "scripts": {
