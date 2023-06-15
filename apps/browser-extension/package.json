@@ -1,12 +1,12 @@
 {
   "name": "auto-pop",
   "displayName": "Auto-Pop",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A depop automation tool.",
   "author": "ruarim",
   "scripts": {
-    "dev": "plasmo dev",
-    "build": "plasmo build --zip"
+    "dev": "NODE_ENV=development plasmo dev",
+    "build": "NODE_ENV=production plasmo build --zip"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
