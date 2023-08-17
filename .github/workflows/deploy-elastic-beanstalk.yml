@@ -20,8 +20,13 @@ jobs:
         with:
           node-version: 16
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
       - name: Install EB CLI
-        run: npm install -g awsebcli
+        run: pip install awsebcli --upgrade --user
 
       - name: Install dependencies
         run: yarn
