@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "apps/backend/**"
+    # paths:
+    #   - "apps/backend/**"
 
 jobs:
   deploy:
@@ -19,6 +19,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Install EB CLI
+        run: pip install awsebcli --upgrade --user
 
       - name: Install dependencies
         run: yarn
