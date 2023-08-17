@@ -1,8 +1,8 @@
 branch-defaults:
   default:
-    environment: ${{ secrets.EB_ENVIRONMENT_NAME }}
+    environment: auto-pop-backend-production-1
 global:
-  application_name: ${{ secrets.EB_APPLICATION_NAME }}
+  application_name: auto-pop-backend
   branch: null
   default_ec2_keyname: null
   default_platform: Node.js 16 running on 64bit Amazon Linux 2
