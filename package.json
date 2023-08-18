@@ -12,7 +12,8 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "start": "turbo run start"
+    "start:dev": "turbo run start",
+    "start": "cd apps/backend && yarn start:prod"
   },
   "devDependencies": {
     "turbo": "^1.9.0"
