@@ -13,7 +13,6 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "build:extension": "turbo run build && cd apps/browser-extension && yarn build:prod",
-    "start:dev": "turbo run start",
     "start": "cd apps/backend && yarn start:prod"
   },
   "devDependencies": {
