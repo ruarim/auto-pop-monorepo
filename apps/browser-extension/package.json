@@ -6,7 +6,7 @@
   "author": "ruarim",
   "scripts": {
     "dev": "NODE_ENV=development plasmo dev",
-    "build": "NODE_ENV=production plasmo build --zip"
+    "build:prod": "NODE_ENV=production plasmo build --zip"
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
