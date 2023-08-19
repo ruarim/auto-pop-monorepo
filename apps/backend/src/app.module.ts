@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
-import { RefreshCronService } from './cron/refresh/refresh.service';
-import { getTypeOrmConfig } from 'config/typeorm.config';
+import { RefreshCronService } from './modules/users/cron/refresh/refresh.service';
+import { getTypeOrmConfig } from 'src/config/typeorm.config';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 
