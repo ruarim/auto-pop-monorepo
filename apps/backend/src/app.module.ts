@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { RefreshCronService } from './cron/refresh/refresh.service';
 import { getTypeOrmConfig } from 'config/typeorm.config';
+import { AppService } from './app.service';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { getTypeOrmConfig } from 'config/typeorm.config';
     ScheduleModule.forRoot(),
     UsersModule,
   ],
-  providers: [RefreshCronService],
+  controllers: [AppController],
+  providers: [RefreshCronService, AppService],
 })
 export class AppModule {}
