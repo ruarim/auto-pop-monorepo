@@ -22,8 +22,6 @@ RUN yarn build
 # Run app
 CMD [ "yarn", "start" ]
 
-EXPOSE 3000
-
 
 
 
