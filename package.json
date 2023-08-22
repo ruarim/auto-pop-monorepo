@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "dev": "turbo run dev",
-    "build": "turbo run build",
+    "build": "turbo run build --filter auto-pop-api --filter depop-utils",
     "start": "turbo run start"
   },
   "devDependencies": {
