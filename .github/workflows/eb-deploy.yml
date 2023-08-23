@@ -4,10 +4,8 @@ on:
   push:
     branches:
       - main
-    # IN PRODUCTION, UNCOMMENT THE FOLLOWING LINES
-    # paths:
-    #   - "apps/backend/**"
-    #   - "packages/depop-utils/**"
+    paths-ignore:
+      - "apps/browser-extension/**"
 
 jobs:
   deploy:
