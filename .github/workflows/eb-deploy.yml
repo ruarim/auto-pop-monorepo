@@ -12,27 +12,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.sha }}
 
     steps:
-        # ADD DOCKER BUILD HERE
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip * -x "**node_modules**" "**.git**" "**.github**" "**.env**" "**.DS_Store**"
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v14
         with:
-          python-version: 3.8
-
-      - name: Install EB CLI
-        run: pip install awsebcli --upgrade --user
-
-      - name: Install dependencies
-        run: yarn
-
-      - name: Build application
-        run: yarn build
-
-      - name: Deploy to Elastic Beanstalk
-        run: |
-          cd apps/backend
-          eb deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
+          version_label: ${{ env.VERSION }}
+          region: eu-west-2
+          deployment_package: deploy.zip
