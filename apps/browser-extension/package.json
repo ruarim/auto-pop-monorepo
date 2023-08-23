@@ -1,7 +1,7 @@
 {
   "name": "auto-pop",
   "displayName": "Auto-Pop",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A depop automation tool.",
   "author": "ruarim",
   "scripts": {
@@ -30,7 +30,7 @@
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.6",
     "prettier": "2.7.1",
-    "typescript": "4.8.4"
+    "typescript": "5.1.6"
   },
   "manifest": {
     "host_permissions": [

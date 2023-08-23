@@ -1,0 +1,32 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "apps/browser-extension/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ github.sha }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Generate Deployment Package
+        run: zip -r deploy.zip * -x "**node_modules**" "**.git**" "**.github**" "**.env**" "**.DS_Store**"
+
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.EB_APPLICATION_NAME }}
+          environment_name: ${{ secrets.EB_ENVIRONMENT_NAME }}
+          version_label: ${{ env.VERSION }}
+          region: eu-west-2
+          deployment_package: deploy.zip
