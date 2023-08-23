@@ -19,9 +19,10 @@ COPY . .
 # Creates a "dist" folder with the production build
 RUN yarn build
 
+# Expose port
+EXPOSE 3000
+
 # Run app
 CMD [ "yarn", "start" ]
-
-
 
 
