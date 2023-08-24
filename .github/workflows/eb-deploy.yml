@@ -6,6 +6,8 @@ on:
       - main
     paths-ignore:
       - "apps/browser-extension/**"
+      - ".gitignore"
+      - "README.md"
 
 jobs:
   deploy:
