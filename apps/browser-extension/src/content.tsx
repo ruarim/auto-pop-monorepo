@@ -5,7 +5,6 @@ import type { PlasmoContentScript } from "plasmo"
 import App from "~src/components/app"
 
 import Layout from "./components/layout"
-import { AuthProvider } from "./providers/AuthProvider"
 
 export const config: PlasmoContentScript = {
   matches: ["https://www.depop.com/*"],
@@ -22,11 +21,9 @@ export const getStyle = () => {
 const PlasmoOverlay = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <Layout>
-          <App />
-        </Layout>
-      </AuthProvider>
+      <Layout>
+        <App />
+      </Layout>
     </QueryClientProvider>
   )
 }
